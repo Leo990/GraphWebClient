@@ -1,0 +1,16 @@
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Nodos</th>
+            <th>Enlaces</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let graph of listGraphs" (click)="setGraph(graph)">
+            <th>{{ graph.name }}</th>
+            <th>{{ graph.nodes.length }}</th>
+            <th>{{ graph.edges.length }}</th>
+        </tr>
+    </tbody>
+</table>
