@@ -11,20 +11,23 @@ import { ListComponent } from './main/list/list.component';
 import { FileComponent } from './main/file/file.component';
 import { RandomComponent } from './main/random/random.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { FilesDirective } from '../directives/files.directive';
+import { FilesComponent } from './administrate/files/files.component';
 
 @NgModule({
   declarations: [
     MainComponent,
     AdministrateComponent,
     ListComponent,
-    FileComponent,
     RandomComponent,
+    FilesDirective,
+    FilesComponent,
   ],
   imports: [
     CommonModule,
     GraphsRoutingModule,
     HttpClientModule,
-RouterModule,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    RouterModule,
     NgxDropzoneModule,
   ],
   providers: [GraphService],

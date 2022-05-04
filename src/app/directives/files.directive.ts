@@ -1,0 +1,46 @@
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Graph } from '../models';
+import { GraphService } from '../services/graph.service';
+
+@Directive({
+  selector: '[files]',
+})
+export class FilesDirective {
+  @Input('graph')
+  graph!: Graph;
+  elementRef: ElementRef<HTMLElement>;
+
+  constructor(
+    private elem: ElementRef<HTMLElement>,
+    private graphservice: GraphService
+  ) {
+    this.elementRef = this.elem;
+  }
+
+  @HostListener('click')
+  options() {
+    let opt = this.elementRef.nativeElement.id;
+    switch (opt) {
+      case 'files-save':
+        this.graphservice.createGraph(this.graph.to_json());
+        break;
+      case 'files-save-as':
+        console.log('Como desea que se guarde');
+        break;
+      case 'files-import':
+        console.log('Como desea que se guarde');
+        break;
+      case 'files-export':
+        console.log('Como desea que se guarde');
+        break;
+      case 'files-print':
+        console.log('Como desea que se guarde');
+        break;
+      case 'files-exit':
+        console.log('Como desea que se guarde');
+        break;
+      default:
+        break;
+    }
+  }
+}

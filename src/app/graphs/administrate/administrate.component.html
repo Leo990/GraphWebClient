@@ -1,2 +1,85 @@
-<a class="btn btn-danger btn-lg" (click)="outTicket()">Touch me ahhh!</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Graph</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Archivo</a
+          >
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li>
+              <a files [graph]="graph" class="dropdown-item" id="files-save"
+                >Guardar</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" id="files-save-as">Guardar como</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" id="files-import">Importar datos</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" id="files-export">Exportar datos</a>
+                </li>
+                <li><a class="dropdown-item">Inicio</a></li>
+                <li><a class="dropdown-item" id="files-print">Imprimir</a></li>
+                <li><a class="dropdown-item" id="files-exit">Cerrar</a></li>
+            </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Editar
+          </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#">Nodo</a></li>
+                    <li><a class="dropdown-item" href="#">Arista</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Analizar Algoritmos
+          </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Herramienta
+          </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#">Aplicacion n</a></li>
+                    <li><a class="dropdown-item" href="#">Ejecutar</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Ventana
+          </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#">Grafica</a></li>
+                    <li><a class="dropdown-item" href="#">Tabla</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Ayuda
+          </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#">Manual de usuario</a></li>
+                    <li><a class="dropdown-item" href="#">Acerca de</a></li>
+                </ul>
+            </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <div class="container graph"></div>

@@ -23,4 +23,14 @@ export class Node implements d3.SimulationNodeDatum {
     this.x = x;
     this.y = y;
   }
+
+  to_json() {
+    let node = {
+      index: this.index,
+      label: this.label,
+      data: this.data,
+      type: this.type,
+    };
+    return JSON.stringify(node);
+  }
 }

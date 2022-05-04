@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
-import { Link } from 'src/app/models/link';
-import { Node } from 'src/app/models/node';
-import { fromEvent, Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Node, Link, Graph } from '../../models/index';
+import { Subscription } from 'rxjs';
 import * as d3 from 'd3';
+import { GraphService } from 'src/app/services/graph.service';
 
 @Component({
   selector: 'app-administrate',
@@ -10,47 +10,37 @@ import * as d3 from 'd3';
   styleUrls: ['./administrate.component.css'],
 })
 export class AdministrateComponent implements OnInit, OnDestroy {
-  graph?: any;
-  nodes: Node[] = [];
-  links: Link[] = [];
+  graph: Graph;
   simulation?: d3.Simulation<Node, undefined>;
   link?: d3.Selection<SVGLineElement, Link, any, any>;
   node?: d3.Selection<SVGCircleElement, Node, any, any>;
   svg?: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>;
   subscriptor?: Subscription;
 
-  constructor(private ngZone: NgZone) {
-    this.graph = JSON.parse(localStorage.getItem('Graph')!);
+  constructor(private graphService: GraphService) {
+    let graph = JSON.parse(localStorage.getItem('Graph')!);
+    this.graph = new Graph(graph.name);
   }
 
   ngOnInit(): void {
-    this.nodes = this.graph.nodes;
-    this.initLinks();
+    let graph = JSON.parse(localStorage.getItem('Graph')!);
+    this.graph.Nodes = graph.nodes;
+    this.initLinks(graph);
     this.simulation = this.createSimulation();
     this.svg = this.createSVG();
     this.link = this.createLinks();
     this.node = this.createNodes();
-    const obs = fromEvent(document.getElementsByClassName('graph')!, 'click');
-    this.subscriptor = obs.subscribe((evt) => {
-      typeof this.link !== 'undefined'
-        ? this.link!.attr('x1', (d: Link) => d.Source.x!)
-            .attr('x2', (d: Link) => d.Target.x!)
-            .attr('y1', (d: Link) => d.Source.y!)
-            .attr('y2', (d: Link) => d.Target.y!)
-        : console.log('alv todo');
-
-      typeof this.node !== 'undefined'
-        ? this.node!.attr('cx', (d: Node) => d['x']!).attr('cy', (d) => d['y']!)
-        : console.log('X2');
+    this.subscriptor = this.graphService.Observable.subscribe(() => {
+      this.ticked();
     });
   }
 
-  initLinks(): void {
+  initLinks(graph:any): void {
     var source: Node;
     var target: Node;
     const feo = new Node(1, '', {}, {}, 1, 1);
-    this.graph.edges.forEach((element: any) => {
-      this.nodes.forEach((item: Node) => {
+    graph.edges.forEach((element: any) => {
+      this.graph.Nodes.forEach((item: Node) => {
         if (element.source == item.index) {
           source = item;
         }
@@ -58,7 +48,7 @@ export class AdministrateComponent implements OnInit, OnDestroy {
           target = item;
         }
       });
-      this.links.push(
+      this.graph.Links.push(
         new Link(
           element.index!,
           typeof source !== 'undefined' ? source : feo,
@@ -71,8 +61,8 @@ export class AdministrateComponent implements OnInit, OnDestroy {
 
   createSimulation(): d3.Simulation<Node, undefined> {
     return d3
-      .forceSimulation(this.nodes)
-      .force('link', d3.forceLink(this.links))
+      .forceSimulation(this.graph.Nodes)
+      .force('link', d3.forceLink(this.graph.Links))
       .force('charge', d3.forceManyBody())
       .force('center', d3.forceCenter())
       .force('collide', d3.forceCollide(40));
@@ -89,7 +79,7 @@ export class AdministrateComponent implements OnInit, OnDestroy {
 
   createNodes(): d3.Selection<SVGCircleElement, Node, any, any> {
     return this.svg!.selectAll('circle')
-      .data(this.nodes)
+      .data(this.graph.Nodes)
       .enter()
       .append('circle')
       .attr('cx', (d: Node) => d['x']!)
@@ -101,7 +91,7 @@ export class AdministrateComponent implements OnInit, OnDestroy {
     return this.svg!.selectAll('line')
       .style('stroke', 'red')
       .style('stroke-width', 2)
-      .data(this.links)
+      .data(this.graph.Links)
       .enter()
       .append('line')
       .style('stroke', 'red')
@@ -117,7 +107,7 @@ export class AdministrateComponent implements OnInit, OnDestroy {
     this.subscriptor?.unsubscribe();
   }
 
-  ticket() {
+  ticked() {
     typeof this.link !== 'undefined'
       ? this.link!.attr('x1', (d: Link) => d.Source.x!)
           .attr('x2', (d: Link) => d.Target.x!)

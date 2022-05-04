@@ -38,4 +38,14 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   set Target(target: Node) {
     this.target = target;
   }
+
+  to_json() {
+    let link = {
+      index: this.index,
+      source: this.Source.index,
+      target: this.Target.index,
+      weight: this.weight,
+    };
+    return JSON.stringify(link);
+  }
 }
