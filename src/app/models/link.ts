@@ -2,10 +2,10 @@ import * as d3 from 'd3';
 import { Node } from './node';
 
 export class Link implements d3.SimulationLinkDatum<Node> {
-  index?: number | undefined;
+  index: number;
   source: Node | number;
   target: Node | number;
-  weight?: number;
+  weight: number;
 
   constructor(
     index: number,
@@ -39,13 +39,18 @@ export class Link implements d3.SimulationLinkDatum<Node> {
     this.target = target;
   }
 
-  to_json() {
+  to_json(): {
+    index: number;
+    source: number;
+    target: number;
+    weight: number;
+  } {
     let link = {
       index: this.index,
-      source: this.Source.index,
-      target: this.Target.index,
+      source: this.Source.index!,
+      target: this.Target.index!,
       weight: this.weight,
     };
-    return JSON.stringify(link);
+    return link;
   }
 }

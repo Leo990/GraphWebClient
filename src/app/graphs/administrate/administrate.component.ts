@@ -17,12 +17,14 @@ export class AdministrateComponent implements OnInit, OnDestroy {
   simulation?: d3.Simulation<Node, undefined>;
   link?: d3.Selection<SVGLineElement, Link, any, any>;
   node?: d3.Selection<SVGCircleElement, Node, any, any>;
+  nodeText?: d3.Selection<SVGTextElement, Node, any, any>;
   svg?: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>;
   subscriptor?: Subscription;
 
   constructor(private graphService: GraphService) {
     let graph = JSON.parse(localStorage.getItem('Graph')!);
     this.graph = new Graph(graph.name);
+    this.graph.id = graph._id.$oid != null ? graph._id.$oid : '';
   }
 
   ngOnInit(): void {
@@ -33,6 +35,7 @@ export class AdministrateComponent implements OnInit, OnDestroy {
     this.svg = this.createSVG();
     this.link = this.createLinks();
     this.node = this.createNodes();
+    this.nodeText = this.createNodeText();
     this.subscriptor = interval(5).subscribe(() => {
       this.ticked();
     });
@@ -76,9 +79,9 @@ export class AdministrateComponent implements OnInit, OnDestroy {
       .select('.graph')
       .append('svg')
       .attr('class', 'w-100')
-      .attr('width', 800)
-      .attr('height', 600)
-      .attr('viewBox', [-400, -400, 800, 600]);
+      .attr('width', 600)
+      .attr('height', 400)
+      .attr('viewBox', [-200, -200, 600, 400]);
   }
 
   createNodes(): d3.Selection<SVGCircleElement, Node, any, any> {
@@ -88,7 +91,18 @@ export class AdministrateComponent implements OnInit, OnDestroy {
       .append('circle')
       .attr('cx', (d: Node) => d['x']!)
       .attr('cy', (d: Node) => d['y']!)
-      .attr('r', 10);
+      .attr('r', 10)
+      .attr('fill', 'gray');
+  }
+
+  createNodeText(): d3.Selection<SVGTextElement, Node, any, any> {
+    return this.svg!.selectAll('text')
+      .data(this.graph.nodes)
+      .enter()
+      .append('text')
+      .attr('x', (d: Node) => d['x']!)
+      .attr('y', (d: Node) => d['y']!)
+      .text((d: Node) => d['index']!);
   }
 
   createLinks(): d3.Selection<SVGLineElement, Link, any, any> {
@@ -122,9 +136,13 @@ export class AdministrateComponent implements OnInit, OnDestroy {
     typeof this.node !== 'undefined'
       ? this.node!.attr('cx', (d: Node) => d['x']!).attr('cy', (d) => d['y']!)
       : console.log('X2');
+
+    typeof this.nodeText !== 'undefined'
+      ? this.nodeText!.attr('x', (d: Node) => d['x']!).attr('y', (d) => d['y']!)
+      : console.log('X2');
   }
 
-  addNode(node: any) {
+  addNode(node: Node) {
     this.simulation?.stop();
     node != null || node != undefined
       ? this.graph.nodes.push(node)
@@ -135,7 +153,7 @@ export class AdministrateComponent implements OnInit, OnDestroy {
     this.subscriptor?.unsubscribe();
   }
 
-  addEdge(edge: any) {
+  addEdge(edge: Link) {
     this.simulation?.stop();
     edge != null || edge != undefined
       ? this.graph.edges.push(edge)

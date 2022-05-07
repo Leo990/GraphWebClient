@@ -1,14 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, interval } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GraphService {
   private apiBase: string = 'http://127.0.0.1:8000/api/graphs';
-
-  observable: Observable<number> = interval(5);
 
   constructor(private http: HttpClient) {}
 
@@ -20,11 +17,18 @@ export class GraphService {
     return this.http.get(`${this.apiBase}/create/random/`);
   }
 
-  createGraph(graph: string) {
-    return this.http.post(`${this.apiBase}/create/`, graph);
-  }
+  createGraph(graph: any) {
+    let id = graph.id;
+    let auxGraph = {
+      name: graph.name,
+      nodes: graph.nodes,
+      edges: graph.edges,
+    };
+    console.log(id);
 
-  get Observable() {
-    return this.observable;
+    return this.http.post(`${this.apiBase}/create/`, JSON.stringify(auxGraph));
+    /* return id != '' || id != undefined
+      ? this.http.put(`${this.apiBase}/edit/`, JSON.stringify(auxGraph))
+      : this.http.post(`${this.apiBase}/create/`, JSON.stringify(auxGraph)); */
   }
 }

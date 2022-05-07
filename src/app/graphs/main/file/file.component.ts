@@ -21,8 +21,12 @@ export class FileComponent implements OnInit {
   }
 
   setGraph() {
-    this.files[0].text().then((value) => {
-      localStorage.setItem('Graph', value);
+    this.files[0].text().then((graph) => {
+      let aux = JSON.parse(graph);
+      aux['_id'] = {
+        $oid: '',
+      };
+      localStorage.setItem('Graph', JSON.stringify(aux));
     });
   }
 }

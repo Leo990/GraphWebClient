@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Graph } from 'src/app/models/graph';
+import { Link } from 'src/app/models/link';
+import { Node } from 'src/app/models/node';
 
 @Component({
   selector: 'app-options',
@@ -12,33 +14,33 @@ export class OptionsComponent implements OnInit {
   graph: Graph;
 
   @Output('nodeForm')
-  nForm: EventEmitter<any> = new EventEmitter<any>();
+  nForm: EventEmitter<Node> = new EventEmitter<Node>();
 
   @Output('edgeForm')
-  eForm: EventEmitter<any> = new EventEmitter<any>();
+  eForm: EventEmitter<Link> = new EventEmitter<Link>();
 
   nodeForm = this.fb.group({
-    index: this.fb.control(''),
-    label: this.fb.control(''),
+    index: this.fb.control('', [Validators.required]),
+    label: this.fb.control('', [Validators.required]),
     data: this.fb.group({}),
     type: this.fb.group({}),
   });
 
   edgeForm = this.fb.group({
-    index: this.fb.control(''),
+    index: this.fb.control('', [Validators.required]),
     source: this.fb.group({
-      index: this.fb.control(''),
-      label: this.fb.control(''),
+      index: this.fb.control('', [Validators.required]),
+      label: this.fb.control('', [Validators.required]),
       data: this.fb.group({}),
       type: this.fb.group({}),
     }),
     target: this.fb.group({
-      index: this.fb.control(''),
-      label: this.fb.control(''),
+      index: this.fb.control('', [Validators.required]),
+      label: this.fb.control('', [Validators.required]),
       data: this.fb.group({}),
       type: this.fb.group({}),
     }),
-    weight: this.fb.control(''),
+    weight: this.fb.control('', [Validators.required]),
   });
 
   constructor(private fb: FormBuilder) {
@@ -48,24 +50,43 @@ export class OptionsComponent implements OnInit {
   ngOnInit(): void {}
 
   sendNodeForm() {
+    if (this.edgeForm.invalid) {
+      return;
+    }
+
     typeof this.graph != 'undefined'
       ? this.nodeForm.get('index')?.setValue(this.graph.nodes.length + 1)
       : console.log('El formulario no se ha procesado correctamente');
-
-    this.nForm.emit(this.nodeForm.value);
+    let node: Node = new Node(
+      this.nodeForm.get('index')?.value,
+      this.nodeForm.get('label')?.value,
+      this.nodeForm.get('data')?.value,
+      this.nodeForm.get('type')?.value
+    );
+    this.nForm.emit(node);
     this.nodeForm.reset();
   }
 
   sendEdgeForm() {
+    if (this.edgeForm.invalid) {
+      return;
+    }
+
     typeof this.graph != 'undefined'
       ? this.edgeForm.get('index')?.setValue(this.graph.edges.length + 1)
       : console.log('El formulario no se ha procesado correctamente');
+    let link: Link = new Link(
+      this.edgeForm.get('index')?.value,
+      this.edgeForm.get('source')?.value,
+      this.edgeForm.get('target')?.value,
+      this.edgeForm.get('weight')?.value
+    );
 
-    this.eForm.emit(this.edgeForm.value);
+    this.eForm.emit(link);
     this.edgeForm.reset();
   }
 
-  addSource(source: any) {
+  addSource(source: Node) {
     let value = {
       index: source.index,
       label: source.label,
@@ -74,7 +95,7 @@ export class OptionsComponent implements OnInit {
     };
     this.edgeForm.get('source')?.setValue(value);
   }
-  addTarget(target: any) {
+  addTarget(target: Node) {
     let value = {
       index: target.index,
       label: target.label,

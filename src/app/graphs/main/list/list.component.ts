@@ -12,6 +12,7 @@ export class ListComponent {
   constructor() {}
 
   setGraph(graph: any) {
+    //console.log(graph._id.$oid);
     localStorage.setItem('Graph', JSON.stringify(graph));
   }
 }

@@ -9,6 +9,7 @@ export class Graph {
   // path('<str:id>/delete/', view=delete_graph, name='DeleteGraph'),
   // path('create/file/', view=graph_from_file, name='GraphFromFile'),
   // path('create/random/', view=random_graph, name='RandomGraph'),
+  id: string = '';
   name: string = '';
   nodes: Node[] = [];
   edges: Link[] = [];
@@ -33,7 +34,7 @@ export class Graph {
     this.edges = edges;
   }
 
-  to_json() {
+  toObject(): any {
     let nodes: {
       index?: number;
       label?: string;
@@ -41,9 +42,9 @@ export class Graph {
       type?: any;
     }[] = [];
     let links: {
-      index?: number;
-      source?: number;
-      target?: number;
+      index: number;
+      source: number;
+      target: number;
       weight: number;
     }[] = [];
 
@@ -55,10 +56,23 @@ export class Graph {
         type: elem.type,
       });
     });
-    return JSON.stringify({
+    console.log(this.edges);
+
+    this.edges.forEach((element: Link) => {
+      let edge = {
+        index: element.index,
+        source: element.Source.index,
+        target: element.Target.index,
+        weight: element.weight,
+      };
+
+      links.push(edge);
+    });
+    return {
+      id: this.id,
       name: this.name,
       nodes: nodes,
       edges: links,
-    });
+    };
   }
 }

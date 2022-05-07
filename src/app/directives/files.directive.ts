@@ -2,7 +2,6 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { GraphService } from '../services/graph.service';
 import { Graph } from 'src/app/models/graph';
 
-
 @Directive({
   selector: '[files]',
 })
@@ -23,7 +22,10 @@ export class FilesDirective {
     let opt = this.elementRef.nativeElement.id;
     switch (opt) {
       case 'files-save':
-        this.graphservice.createGraph(this.graph.to_json());
+        let graphObject = this.graph.toObject();
+        this.graphservice.createGraph(graphObject).subscribe((res) => {
+          console.log(res);
+        });
         break;
       case 'files-save-as':
         console.log('Como desea que se guarde');

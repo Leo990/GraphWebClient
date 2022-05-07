@@ -16,6 +16,9 @@ export class RandomComponent {
   }
 
   setGraph(graph: any) {
+    graph['_id'] = {
+      $oid: '',
+    };
     localStorage.setItem('Graph', JSON.stringify(graph));
   }
 }
