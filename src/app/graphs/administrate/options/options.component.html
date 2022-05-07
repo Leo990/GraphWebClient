@@ -1,0 +1,42 @@
+<form [formGroup]="nodeForm" (ngSubmit)="sendNodeForm()">
+    <legend>Nodos</legend>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingInput" formControlName="label" />
+        <label for="floatingInput">Nombre del Nodo</label>
+    </div>
+    <button class="btn btn-primary btn-sm w-100" type="submit">
+    Agregar Nodo
+  </button>
+</form>
+<form [formGroup]="edgeForm" (ngSubmit)="sendEdgeForm()">
+    <legend>Aristas</legend>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingInput" formControlName="weight" />
+        <label for="floatingInput">Peso de la arista</label>
+    </div>
+    <div class="btn-group w-100 py-2" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-info btn-sm dropdown-toggle py-2" data-bs-toggle="dropdown" aria-expanded="false">
+      Origen
+    </button>
+        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <li *ngFor="let value of graph.nodes">
+                <a class="dropdown-item" (click)="addSource(value)">{{
+          value.label
+        }}</a>
+            </li>
+        </ul>
+        <button id="btnGroupDrop2" type="button" class="btn btn-success btn-sm dropdown-toggle py-2" data-bs-toggle="dropdown" aria-expanded="false">
+      Destino
+    </button>
+        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <li *ngFor="let value of graph.nodes">
+                <a class="dropdown-item" (click)="addTarget(value)">{{
+          value.label
+        }}</a>
+            </li>
+        </ul>
+    </div>
+    <button class="btn btn-primary btn-sm w-100" type="submit">
+    Agregar Arista
+  </button>
+</form>

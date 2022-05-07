@@ -5,6 +5,7 @@ import { GraphService } from 'src/app/services/graph.service';
 import { Graph } from 'src/app/models/graph';
 import { Node } from 'src/app/models/node';
 import { Link } from 'src/app/models/link';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-administrate',
@@ -26,13 +27,13 @@ export class AdministrateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     let graph = JSON.parse(localStorage.getItem('Graph')!);
-    this.graph.Nodes = graph.nodes;
+    this.graph.nodes = graph.nodes;
     this.initLinks(graph);
     this.simulation = this.createSimulation();
     this.svg = this.createSVG();
     this.link = this.createLinks();
     this.node = this.createNodes();
-    this.subscriptor = this.graphService.Observable.subscribe(() => {
+    this.subscriptor = interval(5).subscribe(() => {
       this.ticked();
     });
   }
@@ -40,9 +41,9 @@ export class AdministrateComponent implements OnInit, OnDestroy {
   initLinks(graph: any): void {
     var source: Node;
     var target: Node;
-    const feo = new Node(1, '', {}, {}, 1, 1);
+    const feo = new Node(1, '', {}, {});
     graph.edges.forEach((element: any) => {
-      this.graph.Nodes.forEach((item: Node) => {
+      this.graph.nodes.forEach((item: Node) => {
         if (element.source == item.index) {
           source = item;
         }
@@ -50,7 +51,7 @@ export class AdministrateComponent implements OnInit, OnDestroy {
           target = item;
         }
       });
-      this.graph.Links.push(
+      this.graph.edges.push(
         new Link(
           element.index!,
           typeof source !== 'undefined' ? source : feo,
@@ -67,16 +68,17 @@ export class AdministrateComponent implements OnInit, OnDestroy {
       .force('link', d3.forceLink(this.graph.Links))
       .force('charge', d3.forceManyBody())
       .force('center', d3.forceCenter())
-      .force('collide', d3.forceCollide(40));
+      .force('collide', d3.forceCollide(20));
   }
 
   createSVG() {
     return d3
       .select('.graph')
       .append('svg')
-      .attr('width', 400)
+      .attr('class', 'w-100')
+      .attr('width', 800)
       .attr('height', 600)
-      .attr('viewBox', [-200, -300, 400, 600]);
+      .attr('viewBox', [-400, -400, 800, 600]);
   }
 
   createNodes(): d3.Selection<SVGCircleElement, Node, any, any> {
@@ -93,7 +95,7 @@ export class AdministrateComponent implements OnInit, OnDestroy {
     return this.svg!.selectAll('line')
       .style('stroke', 'red')
       .style('stroke-width', 2)
-      .data(this.graph.Links)
+      .data(this.graph.edges)
       .enter()
       .append('line')
       .style('stroke', 'red')
@@ -120,5 +122,26 @@ export class AdministrateComponent implements OnInit, OnDestroy {
     typeof this.node !== 'undefined'
       ? this.node!.attr('cx', (d: Node) => d['x']!).attr('cy', (d) => d['y']!)
       : console.log('X2');
+  }
+
+  addNode(node: any) {
+    this.simulation?.stop();
+    node != null || node != undefined
+      ? this.graph.nodes.push(node)
+      : console.log('No se ha añadido el nodo');
+    this.simulation?.nodes(this.graph.nodes);
+
+    this.simulation?.restart();
+    this.subscriptor?.unsubscribe();
+  }
+
+  addEdge(edge: any) {
+    this.simulation?.stop();
+    edge != null || edge != undefined
+      ? this.graph.edges.push(edge)
+      : console.log('No se ha añadido el nodo');
+
+    this.simulation?.restart();
+    this.subscriptor?.unsubscribe();
   }
 }

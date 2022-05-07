@@ -8,20 +8,13 @@ export class Node implements d3.SimulationNodeDatum {
   x?: number | undefined;
   y?: number | undefined;
 
-  constructor(
-    index: number,
-    label: string,
-    data: any,
-    type: any,
-    x: number,
-    y: number
-  ) {
+  constructor(index: number, label: string, data: any, type: any) {
     this.index = index;
     this.label = label;
     this.data = data;
     this.type = type;
-    this.x = x;
-    this.y = y;
+    this.x = 0;
+    this.y = 0;
   }
 
   to_json() {

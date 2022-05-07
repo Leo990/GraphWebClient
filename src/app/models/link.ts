@@ -22,13 +22,13 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   get Source(): Node {
     return typeof this.source !== 'number'
       ? this.source
-      : new Node(this.source, `${this.source}`, {}, {}, 0, 0);
+      : new Node(this.source, `${this.source}`, {}, {});
   }
 
   get Target(): Node {
     return typeof this.target !== 'number'
       ? this.target
-      : new Node(this.target, `${this.target}`, {}, {}, 0, 0);
+      : new Node(this.target, `${this.target}`, {}, {});
   }
 
   set Source(source: Node) {
