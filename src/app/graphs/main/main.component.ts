@@ -20,6 +20,13 @@ export class MainComponent implements OnInit {
       this.graphs = res;
     });
   }
-}
 
-  
+  setGraph() {
+    var graph = {
+      name: 'Algun dia',
+      nodes: [],
+      edges: [],
+    };
+    localStorage.setItem('Graph', JSON.stringify(graph));
+  }
+}

@@ -7,6 +7,17 @@
         <div class="col-3 py-2">
             <app-random></app-random>
         </div>
+        <div class="col-3 py-2">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Grafo nuevo</h5>
+                    <p class="card-text">Obtener un grafo vacío</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary btn-sm" (click)="setGraph()">Elegir</a>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="p-3 mb-2 bg-primary text-white">Grafo Existente</div>
     <app-list [list]="graphs"></app-list>

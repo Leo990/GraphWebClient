@@ -34,19 +34,31 @@ export class Graph {
   }
 
   to_json() {
-    let nodes = [];
-    let links = [];
-    this.nodes.forEach((elem) => {
-      nodes.push(elem.to_json());
-    });
-    this.edges.forEach((elem) => {
-      links.push(elem.to_json());
-    });
+    let nodes: {
+      index?: number;
+      label?: string;
+      data?: any;
+      type?: any;
+    }[] = [];
+    let links: {
+      index?: number;
+      source?: number;
+      target?: number;
+      weight: number;
+    }[] = [];
 
+    this.nodes.forEach((elem: Node) => {
+      nodes.push({
+        index: elem.index,
+        label: elem.label,
+        data: elem.data,
+        type: elem.type,
+      });
+    });
     return JSON.stringify({
       name: this.name,
-      nodes: this.nodes,
-      edges: this.edges,
+      nodes: nodes,
+      edges: links,
     });
   }
 }

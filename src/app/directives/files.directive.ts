@@ -1,6 +1,7 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
-import { Graph } from '../models';
 import { GraphService } from '../services/graph.service';
+import { Graph } from 'src/app/models/graph';
+
 
 @Directive({
   selector: '[files]',

@@ -22,6 +22,7 @@ import { FilesComponent } from './administrate/files/files.component';
     RandomComponent,
     FilesDirective,
     FilesComponent,
+    FileComponent,
   ],
   imports: [
     CommonModule,

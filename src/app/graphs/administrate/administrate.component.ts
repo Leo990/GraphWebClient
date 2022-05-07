@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Node, Link, Graph } from '../../models/index';
 import { Subscription } from 'rxjs';
 import * as d3 from 'd3';
 import { GraphService } from 'src/app/services/graph.service';
+import { Graph } from 'src/app/models/graph';
+import { Node } from 'src/app/models/node';
+import { Link } from 'src/app/models/link';
 
 @Component({
   selector: 'app-administrate',
@@ -35,7 +37,7 @@ export class AdministrateComponent implements OnInit, OnDestroy {
     });
   }
 
-  initLinks(graph:any): void {
+  initLinks(graph: any): void {
     var source: Node;
     var target: Node;
     const feo = new Node(1, '', {}, {}, 1, 1);
