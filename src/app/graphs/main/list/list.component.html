@@ -1,5 +1,7 @@
 <div class="row">
-    <div class="col-3 py-2" *ngFor="let graph of listGraphs">
+    <div class="col-3 py-2" *ngFor="
+      let graph of listGraphs | paginate: { itemsPerPage: 4, currentPage: p }
+    ">
         <div class="card h-100">
             <div class="card-body">
                 <h5 class="card-title">{{ graph.name }}</h5>
@@ -11,4 +13,5 @@
             </div>
         </div>
     </div>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
 </div>

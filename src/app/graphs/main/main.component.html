@@ -1,5 +1,5 @@
 <div class="container-md py-2">
-    <div class="p-3 mb-2 bg-primary text-white">Grafo Nuevo</div>
+    <div class="p-3 sb-2 bg-primary text-white">Grafo Nuevo</div>
     <div class="row">
         <div class="col-3 py-2">
             <app-file></app-file>
@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    <div class="p-3 mb-2 bg-primary text-white">Grafo Existente</div>
+    <div class="p-3 sb-2 bg-primary text-white">Grafo Existente</div>
     <app-list [list]="graphs"></app-list>
     <a *ngIf="isExist" class="btn btn-success" [routerLink]="['/administrate']">Iniciar</a
   >

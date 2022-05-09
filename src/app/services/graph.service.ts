@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -24,11 +24,9 @@ export class GraphService {
       nodes: graph.nodes,
       edges: graph.edges,
     };
-    console.log(id);
 
-    return this.http.post(`${this.apiBase}/create/`, JSON.stringify(auxGraph));
-    /* return id != '' || id != undefined
-      ? this.http.put(`${this.apiBase}/edit/`, JSON.stringify(auxGraph))
-      : this.http.post(`${this.apiBase}/create/`, JSON.stringify(auxGraph)); */
+    return id != ''
+      ? this.http.put(`${this.apiBase}/${id}/edit/`, JSON.stringify(auxGraph))
+      : this.http.post(`${this.apiBase}/create/`, JSON.stringify(auxGraph));
   }
 }

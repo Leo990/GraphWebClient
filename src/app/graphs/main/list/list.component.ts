@@ -6,6 +6,8 @@ import { Component, OnInit, Input, Output } from '@angular/core';
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent {
+  p: number = 1;
+
   @Input('list')
   listGraphs: Array<any> = [];
 

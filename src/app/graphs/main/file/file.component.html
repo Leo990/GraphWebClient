@@ -1,7 +1,7 @@
-<div class="card h-100">
+<div class="card">
     <div class="card-body">
         <h5 class="card-title">Archivo</h5>
-        <ngx-dropzone (change)="onSelect($event)">
+        <ngx-dropzone class="h-75" (change)="onSelect($event)">
             <ngx-dropzone-label>Arrastre y suelte aqui su grafo</ngx-dropzone-label>
             <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
                 <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>

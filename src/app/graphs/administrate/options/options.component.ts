@@ -50,13 +50,14 @@ export class OptionsComponent implements OnInit {
   ngOnInit(): void {}
 
   sendNodeForm() {
-    if (this.edgeForm.invalid) {
-      return;
-    }
-
     typeof this.graph != 'undefined'
       ? this.nodeForm.get('index')?.setValue(this.graph.nodes.length + 1)
       : console.log('El formulario no se ha procesado correctamente');
+    if (this.nodeForm.invalid) {
+      console.log('=> No es valido');
+      return;
+    }
+
     let node: Node = new Node(
       this.nodeForm.get('index')?.value,
       this.nodeForm.get('label')?.value,
@@ -68,13 +69,14 @@ export class OptionsComponent implements OnInit {
   }
 
   sendEdgeForm() {
+    typeof this.graph != 'undefined'
+      ? this.edgeForm.get('index')?.setValue(this.graph.edges.length + 1)
+      : console.log('El formulario no se ha procesado correctamente');
+
     if (this.edgeForm.invalid) {
       return;
     }
 
-    typeof this.graph != 'undefined'
-      ? this.edgeForm.get('index')?.setValue(this.graph.edges.length + 1)
-      : console.log('El formulario no se ha procesado correctamente');
     let link: Link = new Link(
       this.edgeForm.get('index')?.value,
       this.edgeForm.get('source')?.value,
@@ -95,7 +97,7 @@ export class OptionsComponent implements OnInit {
     };
     this.edgeForm.get('source')?.setValue(value);
   }
-  addTarget(target: Node) {
+  addTarget(target: Node): void {
     let value = {
       index: target.index,
       label: target.label,

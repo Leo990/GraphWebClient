@@ -12,6 +12,7 @@ import { ListComponent } from './main/list/list.component';
 import { FileComponent } from './main/file/file.component';
 import { RandomComponent } from './main/random/random.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { FilesDirective } from '../directives/files.directive';
 import { NavbarComponent } from './administrate/grid/navbar/navbar.component';
 import { OptionsComponent } from './administrate/options/options.component';
@@ -34,6 +35,7 @@ import { OptionsComponent } from './administrate/options/options.component';
     RouterModule,
     NgxDropzoneModule,
     ReactiveFormsModule,
+    NgxPaginationModule,
   ],
   providers: [GraphService],
   exports: [MainComponent],
